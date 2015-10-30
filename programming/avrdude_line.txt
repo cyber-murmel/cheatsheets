@@ -1,0 +1,1 @@
+avrdude -p m88 -c stk500 -P /dev/serial/by-id/usb-Silicon_Labs_myAVR_-_mySmartUSB_light_mySmartUSBlight-0001-if00-port0 -U flash:w:/home/markus/Documents/pentabug/firmware/pentabug.elf:i
