@@ -4,7 +4,7 @@ The idea behind Arch Linux is to use Linux learnin by doing, which is what I int
 ## Planned Setup:
 Arch will be installed on one device \(laptop\) with one hard drive. The network access will
 be via WiFi. Full disk encryption will be applied with cryptsetup \(LUKS\).
-[LUKS on LVM](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LUKS_on_LVM)
+[LVM on LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS)
 
 physical volume	| /dev/sda1	| /dev/sda1
 ----------------|---------------|----------------
@@ -51,16 +51,94 @@ $ parted $device
 (parted) mkpart primary 256MiB 100%
 (parted) quit
 ```
-Create physical volume for LVM
+Create LUKS encrypted container
 ```
-$ lvm pvcreate /dev/sda2
+$ cryptsetup luksFormat /dev/sda2
 ```
-Create volume group calles "lvm"
+Open container as "luks"
 ```
-$ lvm vgcreate lvm /dev/sda2
+$ cryptsetup open --type luks /dev/sda2 luks
 ```
-Create logical volume in volume group
-Swap
+Create physical volume
 ```
-$ lvm lvcreate -L 2G -n swap lvm
+$ vgcreate lvm /dev/mapper/luks
+```
+Create logical volumes
+```
+$ lvcreate -L 4G lvm -n swapvol
+$ lvcreate -l +100%FREE lvm -n rootvol
+```
+Format logical volumes
+```
+$ mkfs.ext4 /dev/mapper/lvm-rootvol
+$ mkswap /dev/mapper/lvm-swapvol
+```
+Mount
+```
+$ mount /dev/MyStorage/rootvol /mnt
+$ swapon /dev/MyStorage/swapvol
+```
+Format boot partition
+```
+$  mkfs.ext3 /dev/sda1
+```
+Mount boot partition
+```
+$ mkdir /mnt/boot
+$ mount /dev/sdbY /mnt/boot
+```
+Select mirror by uncommenting
+```
+$ nano /etc/pacman.d/mirrorlist
+```
+Install base packages
+```
+$ pacstrap -i /mnt base base-devel
+```
+Generate fstab with universally unique identifiers
+```
+$ genfstab -U /mnt > /mnt/etc/fstab
+```
+Copy networkconfig and change root
+```
+$ cp /etc/netctl /mnt/etc/netctl
+$ arch-chroot /mnt /bin/bash
+```
+Uncomment corresponding locales in /etc/locale.gen and generate locales
+```
+$ nano /etc/locale.gen
+$ locale-gen
+$ echo "LANG=en_US.UTF-8" > /etc/locale.conf
+$ echo "KEYMAP=de-latin1" > /etc/vconsole.conf
+```
+Select time zone 
+```
+$ tzselect
+```
+Edir mkinitcpio.conf
+```
+$ nano /etc/mkinitcpio.conf
+HOOKS="... encrypt lvm2 ... filesystems ..."
+$ mkinitcpio -p linux
+```
+Install bootloader
+```
+$ pacman -S grub os-prober
+$ grub-install --recheck /dev/sda
+$ grub-mkconfig -o /boot/grub/grub.cfg
+```
+Configure Network
+```
+$ nano /etc/hostname
+$ pacman -S iw wpa_supplicant dialog
+```
+Set Password and exit
+```
+$ passwd
+$ exit
+```
+Unmount and reboot 
+```
+$ umount -R /mnt
+$ reboot
 ```
