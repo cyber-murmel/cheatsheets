@@ -8,10 +8,10 @@ $ pacman -S lib32-gcc-libs                                              # instal
 $ useradd -m steam                                                      # add new user and create home directory
 $ passwd steam                                                          # set unix password for user
 $ su - steam                                                            # login as steam
-$ mkdir bin; cd bin			                                # make bin directory and change into it
-$ wget http://media.steampowered.com/client/steamcmd_linux.tar.gz	# get steamcmd
+$ mkdir bin; cd bin                                                     # make bin directory and change into it
+$ wget http://media.steampowered.com/client/steamcmd_linux.tar.gz       # get steamcmd
 $ tar -xvzf steamcmd_linux.tar.gz                                       # unpack steamcmd
-$ ./steamcmd.sh +login anonymous +quit					# first time execution
+$ ./steamcmd.sh +login anonymous +quit                                  # first time execution
 
 $ cd ~                                                                  # change into home directory
 $ nano update_gmod.sh                                                   # create update script
