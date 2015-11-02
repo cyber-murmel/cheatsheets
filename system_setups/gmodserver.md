@@ -1,7 +1,7 @@
 # How to install Garry's Mod dedicated server on a Linux machine:
 [Steam CMD](https://developer.valvesoftware.com/wiki/SteamCMD#32-bit_libraries_on_64-bit_Linux_systems)
 [Linux dedicated server](http://wiki.garrysmod.com/page/Linux_Dedicated_Server_Hosting)
-´´´bash
+```bash
 $ nano /etc/pacman.conf                                                 # uncomment [multilib] and Include = /etc/pacman.d/mirrorlist
 $ pacman -S lib32-gcc-libs                                              # install the dependencies
 
@@ -54,4 +54,4 @@ exit 0
 $ chmod +x ./update_gmod.sh                                             # make it executeable
 $ ./update_gmod.sh
 
-´´´
+```
