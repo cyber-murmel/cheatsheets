@@ -1,5 +1,5 @@
 # How to install Garry's Mod dedicated server on a Linux machine:
-[Steam CMD](https://developer.valvesoftware.com/wiki/SteamCMD#32-bit_libraries_on_64-bit_Linux_systems)
+[Steam CMD](https://developer.valvesoftware.com/wiki/SteamCMD#32-bit_libraries_on_64-bit_Linux_systems) </br>
 [Linux dedicated server](http://wiki.garrysmod.com/page/Linux_Dedicated_Server_Hosting)
 ```bash
 $ nano /etc/pacman.conf                                                 # uncomment [multilib] and Include = /etc/pacman.d/mirrorlist
