@@ -51,7 +51,7 @@ update_server 4020 "server_1"
 # Exit with status code 0 ( which means OK )
 exit 0
 
-$ chmod +x ./update_gmod.sh                                             # make it executeable
+$ chmod u+x ./update_gmod.sh                                             # make it executeable
 $ ./update_gmod.sh
 
 ```
