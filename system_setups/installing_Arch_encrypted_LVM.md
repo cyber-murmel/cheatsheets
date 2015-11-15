@@ -24,7 +24,7 @@ Boot
 $loadkeys de-latin1                             # change keyboard layout
 $ wifi-menu                                     # setup network
 $ lsblk                                         # list storage devices
-$ shred -v -z sda1                              # shred $device, overwrite with zeros
+$ shred -v -z /dev/sda                          # shred $device, overwrite with zeros
 $ parted $device                                # create partitions
 (parted) mklabel msdos
 (parted) mkpart primary ext3 1MiB 256MiB
