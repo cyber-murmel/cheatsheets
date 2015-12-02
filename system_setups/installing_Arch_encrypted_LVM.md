@@ -21,7 +21,12 @@ $ dd if=archlinux-2015.10.01-dual.iso | pv -b | dd of=/dev/sd* # flash to storag
 ```
 Boot
 ``` bash
-$loadkeys de-latin1                             # change keyboard layout
+$ loadkeys de-latin1                            # change keyboard layout
+$ iw dev                                        # show network interface devices
+$ ip link set $device up                        # activate wifi device
+$ ip link show $device                          # verify device is active
+$ iw dev wlan0 scan | grep ESSID                # search for access points and only show ESSIDs
+$ wpa_supplicant -D nl80211,wext -i $device -c <(wpa_passphrase "your_SSID" "your_key")  # connect to WPA secured AP
 $ wifi-menu                                     # setup network
 $ lsblk                                         # list storage devices
 $ shred -v -z /dev/sda                          # shred $device, overwrite with zeros
