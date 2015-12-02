@@ -61,8 +61,14 @@ $ pacman -S grub os-prober                      # install bootloader
 $ grub-install --recheck /dev/sda               # apply bootloader
 $ grub-mkconfig -o /boot/grub/grub.cfg          # configure boot loader
 $ nano /etc/hostname                            # set hostname
-$ pacman -S iw wpa_supplicant dialog            # install netowrk config toosl
-$ passwd                                        # set password
+$ pacman -S iw wpa_supplicant dialog            # install netowrk config tools
+$ pacman -S sudo                                # install sudo
+$ visudo                                        # uncomment "%sudo   ALL=(ALL:ALL) ALL"
+$ useradd -m -g $username -G sudo               # add your account
+$ su $username                                  # login to your user
+$ passwd                                        # set user password
+$ exit                                          # logout
+$ passwd                                        # set root password
 $ exit                                          # exit system
 $ umount -R /mnt                                # unmount everything
 $ reboot                                        # reboot
