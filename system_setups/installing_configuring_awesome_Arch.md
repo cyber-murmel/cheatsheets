@@ -1,5 +1,5 @@
 #  Installing awesome window manager on Arch:
-https://wiki.archlinux.org/index.php/Awesome
+https://wiki.archlinux.org/index.php/Awesome </br>
 http://awesome.naquadah.org/wiki/Awesome_3_configuration
 ```bash
 $ sudo pacman -S awesome                            # install awesome
