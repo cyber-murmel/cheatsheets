@@ -77,6 +77,10 @@ $ su $username                                  # login to your user
 $ passwd                                        # set user password
 $ exit                                          # logout
 $ passwd                                        # set root password
+$ nanp /etc/pacman.conf                         # activate multilib support by uncommenting
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+$ pacman -Syu                                   # upgrade system
 $ exit                                          # exit system
 $ umount -R /mnt                                # unmount everything
 $ reboot                                        # reboot
