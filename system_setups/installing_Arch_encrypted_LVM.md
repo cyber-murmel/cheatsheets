@@ -60,16 +60,18 @@ $ echo "LANG=en_US.UTF-8" > /etc/locale.conf    # set language
 $ echo "KEYMAP=de-latin1" > /etc/vconsole.conf  # set keyboard layout
 $ tzselect                                      # select time zone
 $ nano /etc/mkinitcpio.conf                     # edit mkinitcpio.conf
-HOOKS="... encrypt lvm2 ... filesystems ..."
+HOOKS="... udev... encrypt lvm2 resume... filesystems ..."
 $ mkinitcpio -p linux                           # generate initramfs
 $ pacman -S grub os-prober                      # install bootloader
 $ grub-install --recheck /dev/sda               # apply bootloader
-$ grub-mkconfig -o /boot/grub/grub.cfg          # configure boot loader
+$ grub-mkconfig -o /boot/grub/grub.cfg          # create bootloader config
+$ nano /boot/grub/grub.cfg                      # configure kernel parameters
 $ nano /etc/hostname                            # set hostname
-$ pacman -S iw wpa_supplicant dialog            # install netowrk config tools
+$ pacman -S wpa_supplicant dialog               # install netowrk config tools
 $ pacman -S sudo                                # install sudo
-$ visudo                                        # uncomment "%sudo   ALL=(ALL:ALL) ALL"
-$ useradd -m -g $username -G sudo               # add your account
+$ pacman -S awesome                             # install window manager
+$ visudo                                        # uncomment "%wheel   ALL=(ALL) NOPASSWD: ALL"
+$ useradd -m -g $username -G wheel              # add your account
 $ su $username                                  # login to your user
 $ passwd                                        # set user password
 $ exit                                          # logout
