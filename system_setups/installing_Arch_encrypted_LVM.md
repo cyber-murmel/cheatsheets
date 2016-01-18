@@ -66,6 +66,7 @@ $ pacman -S grub os-prober                      # install bootloader
 $ grub-install --recheck /dev/sda               # apply bootloader
 $ grub-mkconfig -o /boot/grub/grub.cfg          # create bootloader config
 $ nano /boot/grub/grub.cfg                      # configure kernel parameters
+  # linux ... cryptdevice=<path to encrypted blockdevice> resume=<path to swap mountpoint> root= ... rw quiet
 $ nano /etc/hostname                            # set hostname
 $ pacman -S wpa_supplicant dialog               # install netowrk config tools
 $ pacman -S sudo                                # install sudo
