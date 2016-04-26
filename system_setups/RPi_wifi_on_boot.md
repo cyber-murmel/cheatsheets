@@ -7,9 +7,22 @@ Firt we need the name of the interface we want to use. In my case it's `wlan0`. 
 ```bash
 # ip link
 ```
-Next we need to create a wpa_supplicant config file for our network:
+Next we need to create a wpa_supplicant config file for our network. The first line makes the running supplicant available to other programs.
 ```bash
-# touch /etc/wpa_supplicant/wpa_supplicant-$yourInterfaceName.conf
+# echo ctrl_interface=/var/run/wpa_supplicant >> /etc/wpa_supplicant/wpa_supplicant-$yourInterfaceName.conf
 # wpa_passphrase "$ssidOfYourAccessPoint" "$passphraseOfYourAccessPoint" >> /etc/wpa_supplicant/wpa_supplicant-$yourInterfaceName.conf
 ```
 You can use the last command to add more access points.
+
+## Step 2: Configuring the dhcpcd
+Now we add some lines to the top of dhcpcd.conf that tell dhcpcd how to call wpa_supllicant and behave.
+```bash
+# vim /etc/dhcpcd.conf
+ env wpa_supplicant_driver=wext                 # this is only needed, if your interface doesn't support the default driver
+ env ifwireless=1                               # this tells dhcpcd that the interface is wireless
+ interface wlan0                                # the rest is a standard dhcpcd conf
+ static ip_address=.../...
+ static routers=...
+ static domain_name_servers=...
+ ...
+```
