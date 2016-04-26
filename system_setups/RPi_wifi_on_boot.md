@@ -18,9 +18,9 @@ You can use the last command to add more access points.
 Now we add some lines to the top of dhcpcd.conf that tell dhcpcd how to call wpa_supllicant and behave.
 ```bash
 # vim /etc/dhcpcd.conf
- env wpa_supplicant_driver=wext                 # this is only needed, if your interface doesn't support the default driver
- env ifwireless=1                               # this tells dhcpcd that the interface is wireless
- interface wlan0                                # the rest is a standard dhcpcd conf
+ env wpa_supplicant_driver=wext  # this is only needed, if your interface doesn't support the default driver
+ env ifwireless=1                # this tells dhcpcd that the interface is wireless
+ interface wlan0                 # the rest is a standard dhcpcd conf
  static ip_address=.../...
  static routers=...
  static domain_name_servers=...
