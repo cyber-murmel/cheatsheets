@@ -26,7 +26,7 @@ Now we add some lines to the top of dhcpcd.conf that tell dhcpcd how to call wpa
  static domain_name_servers=...
  ...
 ```
-## Step 2: Configuring systemd
+## Step 3: Configuring systemd
 In the end, all we need to do, is create a dhcpcd hook by making a symlink and tell systemd to enable it.
 ```bash
 # ln -s /usr/share/dhcpcd/hooks/10-wpa_supplicant /usr/lib/dhcpcd/dhcpcd-hooks/
