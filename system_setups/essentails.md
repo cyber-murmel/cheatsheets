@@ -14,3 +14,5 @@
 - awesome
 - compton
 - thunderbird
+- screen
+- sudo
