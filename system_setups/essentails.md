@@ -1,0 +1,10 @@
+# Software I want/need on almost every system
+- htop
+- openssh
+- rfkill
+- arandr
+- terminology
+- git
+- alsa-utils
+- i3lock
+- keepassx
