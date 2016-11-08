@@ -11,3 +11,6 @@
 - xorg-server
 - xorg-xinit
 - xorg-xinput
+- awesome
+- compton
+- thunderbird
