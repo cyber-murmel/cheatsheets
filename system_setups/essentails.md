@@ -8,3 +8,6 @@
 - alsa-utils
 - i3lock
 - keepassx
+- xorg-server
+- xorg-xinit
+- xorg-xinput
