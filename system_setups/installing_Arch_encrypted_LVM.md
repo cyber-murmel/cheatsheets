@@ -13,14 +13,14 @@ content         | /boot         | LVM
 ## Start:
 On your machine:
 
-```bash
+```
 $ wget http://mirror.rackspace.com/archlinux/iso/2015.10.01/archlinux-2015.10.01-dual.iso #get the image
 $ wget http://mirror.rackspace.com/archlinux/iso/2015.10.01/md5sums.txt #get the MD5 sums
 $ md5sum archlinux-2015.10.01-dual.iso -c md5sums.txt # check for integrity
 $ dd if=archlinux-2015.10.01-dual.iso | pv -b | dd of=/dev/sd* # flash to storage device
 ```
 Boot
-``` bash
+```
 $ loadkeys de-latin1                            # change keyboard layout
 $ iw dev                                        # show network interface devices
 $ ip link set $interface up                        # activate wifi device
