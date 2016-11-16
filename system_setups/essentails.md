@@ -17,6 +17,7 @@
 - thunderbird
 - screen
 - sudo
+
 ## infinality-bundle for nice looking fonts
 add
 ```
