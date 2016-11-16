@@ -31,6 +31,7 @@ Server = http://bohoomil.com/repo/multilib/$arch
 Server = http://bohoomil.com/repo/fonts
 ```
 to `/etc/pacman.conf`
+
 Then import and sign the key
 ```
 pacman-key -r 962DDE58
