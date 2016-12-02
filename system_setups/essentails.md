@@ -17,6 +17,8 @@
 - thunderbird
 - screen
 - sudo
+- zsh
+- grml-zsh-config
 
 ## infinality-bundle for nice looking fonts
 add
