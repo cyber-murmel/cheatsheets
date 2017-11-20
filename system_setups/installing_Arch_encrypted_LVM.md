@@ -20,34 +20,40 @@ $ md5sum archlinux-2015.10.01-dual.iso -c md5sums.txt # check for integrity
 $ dd if=archlinux-2015.10.01-dual.iso | pv -b | dd of=/dev/sd* # flash to storage device
 ```
 Boot
-``` bash
+```bash
 $ loadkeys de-latin1                            # change keyboard layout
 $ iw dev                                        # show network interface devices
-$ ip link set $device up                        # activate wifi device
-$ ip link show $device                          # verify device is active
-$ iw dev wlan0 scan | grep ESSID                # search for access points and only show ESSIDs
-$ wpa_supplicant -D nl80211,wext -i $device -c <(wpa_passphrase "your_SSID" "your_key")  # connect to WPA secured AP
-$ wifi-menu                                     # setup network
+$ ip link set $interface up                     # activate wifi device
+$ wpa_supplicant -D nl80211,wext -i $interface -c <(wpa_passphrase $your_SSID $your_PSK)  # connect to WPA secured AP
+$ dhclient $interface
 $ lsblk                                         # list storage devices
-$ shred -v -z /dev/sda                          # shred $device, overwrite with zeros
-$ parted $device                                # create partitions
-(parted) mklabel msdos
-(parted) mkpart primary ext3 1MiB 256MiB
-(parted) set 1 boot on
-(parted) mkpart primary 256MiB 100%
-(parted) quit
-$ cryptsetup luksFormat /dev/sda2               # create crypted contaienr
+$ fdisk $device                                 # create partitions
+delete
+new
+primary
+1
+<enter>
++256M
+new
+primary
+1
+<enter>
+<enter>
+print
+write
+$ cryptsetup luksFormat /dev/$device2           # create crypted contaienr
 $ cryptsetup open --type luks /dev/sda2 luks    # open container als "luks"
-$ vgcreate volgro /dev/mapper/luks              # create volume group
-$ lvcreate -L 4G volgro -n swapvol              # create swap
-$ lvcreate -l +100%FREE volgro -n rootvol       # create root
-$ mkfs.ext4 /dev/volgro/rootvol                 # create file system
-$ mkswap /dev/volgro/swapvol                    # create file system
-$ mount /dev/volgro/rootvol /mnt                # mount root
-$ swapon /dev/volgro/swapvol                    # enable swap
-$ mkfs.ext3 /dev/sda1                           # format boot partition
+$ volgroname=volgro_$month_$year
+$ vgcreatevolgroname /dev/mapper/luks           # create volume group
+##$ lvcreate -L 4G volgroname -n swapvol        # create swap
+$ lvcreate -l +100%FREE volgroname -n rootvol   # create root
+$ mkfs.ext4 /dev/volgroname/rootvol             # create file system
+##$ mkswap /dev/volgroname/swapvol              # create file system
+$ mount /dev/volgroname/rootvol /mnt            # mount root
+##$ swapon /dev/volgroname/swapvol              # enable swap
+$ mkfs.ext4 /dev/sda1                           # format boot partition
 $ mkdir /mnt/boot                               # create boot directory
-$ mount /dev/sda1 /mnt/boot                     # mount boot
+$ mount /dev/$device1 /mnt/boot                 # mount boot
 $ nano /etc/pacman.d/mirrorlist                 # select mirror by uncommenting
 $ pacstrap -i /mnt base base-devel              # install base packages
 $ genfstab -U /mnt > /mnt/etc/fstab             # generate file system table with universally unique indentifiers
@@ -60,22 +66,19 @@ $ echo "LANG=en_US.UTF-8" > /etc/locale.conf    # set language
 $ echo "KEYMAP=de-latin1" > /etc/vconsole.conf  # set keyboard layout
 $ tzselect                                      # select time zone
 $ nano /etc/mkinitcpio.conf                     # edit mkinitcpio.conf
-HOOKS="... udev... encrypt lvm2 resume... filesystems ..."
+HOOKS="... udev... encrypt lvm2 (resume)... filesystems ..."
 $ mkinitcpio -p linux                           # generate initramfs
 $ pacman -S grub os-prober                      # install bootloader
-$ grub-install --recheck /dev/sda               # apply bootloader
+$ grub-install --recheck /dev/$device           # apply bootloader
 $ grub-mkconfig -o /boot/grub/grub.cfg          # create bootloader config
 $ nano /boot/grub/grub.cfg                      # configure kernel parameters
-linux ... cryptdevice=<path to encrypted blockdevice> resume=<path to swap mountpoint> root= ... rw quiet
+linux ... cryptdevice=<path to encrypted blockdevice>:luks (resume=<path to swap mountpoint>) root= ... rw quiet
 $ nano /etc/hostname                            # set hostname
 $ pacman -S wpa_supplicant dialog               # install netowrk config tools
 $ pacman -S sudo                                # install sudo
-$ pacman -S awesome                             # install window manager
-$ visudo                                        # uncomment "%wheel   ALL=(ALL) NOPASSWD: ALL"
-$ useradd -m -g $username -G wheel              # add your account
-$ su $username                                  # login to your user
-$ passwd                                        # set user password
-$ exit                                          # logout
+$ visudo                                        # uncomment "%sudo   ALL=(ALL) ALL"
+$ useradd -m -U $username -G sudo               # add your account
+$ passwd $username                              # set user password
 $ passwd                                        # set root password
 $ nanp /etc/pacman.conf                         # activate multilib support by uncommenting
 [multilib]
